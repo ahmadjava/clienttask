@@ -1,5 +1,6 @@
 package com.capitalnumber.demo.repository;
 
+import com.capitalnumber.demo.exceptions.ResourceUnavailableException;
 import com.capitalnumber.demo.model.MatchDetail;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ public interface MatchDetailDAO {
     MatchDetail save(MatchDetail matchDetail);
     MatchDetail findById(Long id);
 
-    void deleteUpCommingMatchces();
+    void deleteUpCommingMatchces() throws ResourceUnavailableException;
 
     List<MatchDetail> getAllWinnerList();
     void updateMatchDetail(Long id, MatchDetail patchedMatchDetails);

@@ -1,5 +1,6 @@
 package com.capitalnumber.demo.service;
 
+import com.capitalnumber.demo.exceptions.ResourceUnavailableException;
 import com.capitalnumber.demo.model.MatchDetail;
 import com.capitalnumber.demo.repository.MatchDetailDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,15 @@ public class MatchDetailsServiceImpl implements MatchDetailService{
     }
 
     @Override
-    public MatchDetail findById(Long id) {
-        return matchDetailDAO.findById(id);
+    public MatchDetail findById(Long id) throws ResourceUnavailableException{
+        MatchDetail md = matchDetailDAO.findById(id);
+        if( md == null)
+            throw new ResourceUnavailableException("Could not locate the resource");
+        return md;
     }
 
     @Override
-    public void deleteUpComingMatches() {
+    public void deleteUpComingMatches() throws ResourceUnavailableException{
         matchDetailDAO.deleteUpCommingMatchces();
     }
 

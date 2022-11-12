@@ -1,5 +1,6 @@
 package com.capitalnumber.demo.repository;
 
+import com.capitalnumber.demo.exceptions.ResourceUnavailableException;
 import com.capitalnumber.demo.mappers.MatchDetailMapper;
 import com.capitalnumber.demo.model.MatchDetail;
 import com.capitalnumber.demo.utils.MatchQuery;
@@ -46,10 +47,11 @@ public class MatchDetailDAOImpl implements MatchDetailDAO{
     }
 
     @Override
-    public void deleteUpCommingMatchces() {
+    public void deleteUpCommingMatchces() throws ResourceUnavailableException {
         Map params = new HashMap();
         params.put("currentTimeStamp", LocalDateTime.now());
-        jdbcTemplate.update(MatchQuery.DELETE_UPCOMING_MATCHES, params);
+        int update = jdbcTemplate.update(MatchQuery.DELETE_UPCOMING_MATCHES, params);
+        if(update == 0) throw new ResourceUnavailableException("Could not locate the resource");
     }
 
     @Override
